@@ -12,18 +12,19 @@
 	</div>
 	<hr>
 	<div class="row">
-		<div class="col-sm-8">
+		<div class="col-sm-6">
 			<div id="gridarea"></div>
 		</div>
-		<div class="col-sm-4" id="properties-box">
+		<div class="col-sm-6" id="properties-box">
 			<div class="row">
 				<h3>Properties</h3>
 			</div>
 			<div class="row">
-				<div class="well">Select a tile to load properties</div>
-			</div>
-			<div id="properies-area">
+				<div class="well" id="helpTip">Select a tile to load properties</div>
 
+				<div id="properies-area">
+
+				</div>
 			</div>
 		</div>
 	</div>
