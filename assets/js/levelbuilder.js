@@ -31,11 +31,14 @@ $(document).ready(function(e) {
 			htmlBuffer.push('<div class="row" >');
 			for(var i = 0; i < cols; i++)
 			{
-				htmlBuffer.push('<div class="col-sm-1"><a href="#" data-texture="'+texture+'" data-tile="true" id="tile_'+j+'_'+i+'" data-col="'+i+'" data-row="'+j+'" data-type="' + type + '" data-health="' + health + '" class="tile btn btn-default btn-block">' + type + '</a></div>');
+				htmlBuffer.push('<div class="col-sm-1"><a href="#" data-texture="'+texture+'" data-tile="true" id="tile_'+j+'_'+i+'" data-col="'+i+'" data-row="'+j+'" data-type="' + type + '" data-health="' + health + '" class="tile btn btn-default btn-block">t:' + type + ' h:'+health+'</a></div>');
 			}
 			htmlBuffer.push('</div>');
 		}
 		$('#gridarea').html(htmlBuffer.join('\n'));
+
+		$('#btnExportJSON').removeClass('disabled');
+		$('#btnExportData').removeClass('disabled');
 	});
 
 	$(document).on('click', 'a.tile', function(e){
@@ -60,13 +63,13 @@ $(document).ready(function(e) {
 		panel.push('<form class="form">');
 
 		panel.push(inputGroupStart());
-		panel.push(inputHTML('formtexture', 'formtexture', currentTexture));
+		panel.push(inputHTML('Texture', 'formtexture', 'formtexture', currentTexture));
 		panel.push(inputGroupEnd());
 		panel.push(inputGroupStart());
-		panel.push(inputSelect('formtype', 'formtype', typeOptions, currentType));
+		panel.push(inputSelect('Type', 'formtype', 'formtype', typeOptions, currentType));
 		panel.push(inputGroupEnd());
 		panel.push(inputGroupStart());
-		panel.push(inputHTML('formhealth','formhealth', currentHealth));
+		panel.push(inputHTML('Health', 'formhealth','formhealth', currentHealth));
 		panel.push(inputGroupEnd());
 		panel.push(inputGroupStart());
 		panel.push(inputSubmit('tileUpdate'));
@@ -113,6 +116,23 @@ $(document).ready(function(e) {
 
 		$('#properties-area').html('');
 	});
+
+	$(document).on('click', 'button#btnExportJSON', function(e) {
+		e.preventDefault();
+		alert('btnExportJSON clicked');
+		//look through each wan.
+		$.each( $('#gridarea'), function(index, gridarea) {
+			$('div', gridarea).each(function(){
+				alert('row');
+				
+				$.each( $(this), function(index, $(this) ){
+					$('a', $(this)).each(function(){
+						alert('col');
+					});
+				});
+			});
+		});
+	});
 	
 	function inputHidden(name, id, value)
 	{
@@ -128,19 +148,19 @@ $(document).ready(function(e) {
 	{
 		return '</div>';
 	}
-	function inputHTML(id, name, value)
+	function inputHTML(label, id, name, value)
 	{
-		return '<label>'+name+'</label><input type="text" class="form-control" name="'+name+'" id="'+id+'" value="'+value+'" />';
+		return '<label>'+label+'</label><input type="text" class="form-control" name="'+name+'" id="'+id+'" value="'+value+'" />';
 	}
 
 	function inputSubmit(id)
 	{
 		return '<input type="submit" name="submit" id="'+id+'" value="Update" class="btn btn-primary btn-sm"/>';
 	}
-	function inputSelect(name, id, options, value)
+	function inputSelect(label,name, id, options, value)
 	{
 		var select = [];
-		select.push('<label>'+name+'</label><select class="form-control" name="'+name+'" id="'+id+'">');
+		select.push('<label>'+label+'</label><select class="form-control" name="'+name+'" id="'+id+'">');
 
 		if(options.length)
 		{

@@ -13,7 +13,7 @@
 	<hr>
 	<div class="row">
 		<div class="col-sm-6">
-			<div id="gridarea"></div>
+			<div id="gridarea" class="text-center"></div>
 		</div>
 		<div class="col-sm-6" id="properties-box">
 			<div class="row">
@@ -28,5 +28,23 @@
 			</div>
 		</div>
 	</div>
+	<hr>
+	<div class="row">
+		<div class="col-sm-12">
+			<button id="btnExportData" name="btnExportData" class="btn btn-default disabled">Serialize Data</button>
+			<button id="btnExportJSON" name="btnExportJSON" class="btn btn-default disabled">Export JSON</button>
+		</div>
+	</div>
+	<div class="row export-area">
+		<div class="row">
+			<hr>
+			<div class="col-sm-12">
+				<label>Result:</label>
+				<textarea id="exportText" name="exportText" class="form-control"></textarea>
+			</div>
+		</div>
+	</div>
+	<hr>
+
 </div>
 
