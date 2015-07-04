@@ -10,7 +10,7 @@ class tools extends CI_Controller {
 		
 		if (!$this->ion_auth->logged_in())
 		{
-			redirect('auth/login');
+			redirect('login');
 		}
 
 		$this->_init();
