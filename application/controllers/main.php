@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Main extends CI_Controller {
+class main extends CI_Controller {
 
 	function __construct()
 	{
@@ -14,6 +14,7 @@ class Main extends CI_Controller {
 	private function _init()
 	{
 		$this->output->set_template('default');
+
 	}
 
 	public function index()
