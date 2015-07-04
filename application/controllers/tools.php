@@ -24,6 +24,7 @@ class Tools extends CI_Controller {
 
 	function levelbuilder()
 	{
+		
 		//we are going to fucking make leves with a gui.
 		$this->load->js('assets/js/levelbuilder.js');
 		$this->load->view('tools/levelbuilder');

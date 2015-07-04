@@ -31,7 +31,7 @@ $(document).ready(function(e) {
 			htmlBuffer.push('<div class="row" >');
 			for(var i = 0; i < cols; i++)
 			{
-				htmlBuffer.push('<div class="col-sm-1"><a href="#" data-texture="'+texture+'" data-tile="true" id="tile_'+j+'_'+i+'" data-col="'+i+'" data-row="'+j+'" data-type="' + type + '" data-health="' + health + '" class="tile btn btn-default btn-block">t:' + type + ' h:'+health+'</a></div>');
+				htmlBuffer.push('<div class="col-sm-1 column"><a href="#" data-texture="'+texture+'" data-tile="true" id="tile_'+j+'_'+i+'" data-col="'+i+'" data-row="'+j+'" data-type="' + type + '" data-health="' + health + '" class="tile btn btn-default btn-block">t:' + type + ' h:'+health+'</a></div>');
 			}
 			htmlBuffer.push('</div>');
 		}
@@ -39,6 +39,7 @@ $(document).ready(function(e) {
 
 		$('#btnExportJSON').removeClass('disabled');
 		$('#btnExportData').removeClass('disabled');
+		$('#btnExportPrettyJSON').removeClass('disabled');
 	});
 
 	$(document).on('click', 'a.tile', function(e){
@@ -63,13 +64,13 @@ $(document).ready(function(e) {
 		panel.push('<form class="form">');
 
 		panel.push(inputGroupStart());
-		panel.push(inputHTML('Texture', 'formtexture', 'formtexture', currentTexture));
+		panel.push(inputHTML('Texture <small>String texture name</small>', 'formtexture', 'formtexture', currentTexture));
 		panel.push(inputGroupEnd());
 		panel.push(inputGroupStart());
 		panel.push(inputSelect('Type', 'formtype', 'formtype', typeOptions, currentType));
 		panel.push(inputGroupEnd());
 		panel.push(inputGroupStart());
-		panel.push(inputHTML('Health', 'formhealth','formhealth', currentHealth));
+		panel.push(inputHTML('Health <small>Default 1</small>', 'formhealth','formhealth', currentHealth));
 		panel.push(inputGroupEnd());
 		panel.push(inputGroupStart());
 		panel.push(inputSubmit('tileUpdate'));
@@ -119,18 +120,93 @@ $(document).ready(function(e) {
 
 	$(document).on('click', 'button#btnExportJSON', function(e) {
 		e.preventDefault();
-		alert('btnExportJSON clicked');
-		//look through each wan.
-		$.each( $('#gridarea'), function(index, gridarea) {
-			$('div', gridarea).each(function(){
-				alert('row');
-				
-				$.each( $(this), function(index, $(this) ){
-					$('a', $(this)).each(function(){
-						alert('col');
-					});
-				});
+		
+		var dataRows = [];
+		
+		$('#gridarea').find('div.row').each(function(index, element){
+			
+			var dataCols = [];
+			
+			$(this).find('div.column').each( function(j, el) {
+				var colData = $(this).find('a');
+				var tmpArr = [];
+
+				tmpArr = [colData.attr('data-type'), colData.attr('data-health'), colData.attr('data-texture')];
+
+				dataCols.push(tmpArr);
 			});
+
+			dataRows.push(dataCols);
+		});
+
+		$('#exportText').html(JSON.stringify(dataRows));
+	});
+
+	$(document).on('click', 'button#btnExportData', function(e) {
+
+		e.preventDefault();
+		
+		var dataRows = [];
+		
+		$('#gridarea').find('div.row').each(function(index, element){
+			
+			var dataCols = [];
+			
+			$(this).find('div.column').each( function(j, el) {
+				var colData = $(this).find('a');
+				var tmpArr = [];
+
+				tmpArr = [colData.attr('data-type'), colData.attr('data-health'), colData.attr('data-texture')];
+
+				dataCols.push(tmpArr);
+			});
+
+			dataRows.push(JSON.stringify(dataCols));
+
+		});
+
+		$.ajax({
+			type: 'POST',
+			url: 'json/serializelevel',
+			data: { data: dataRows },
+			success: function(resp)
+			{
+				$('#exportText').html(resp);
+			}
+		});
+	});
+
+	$(document).on('click', 'button#btnExportPrettyJSON', function(e) {
+
+		e.preventDefault();
+		
+		var dataRows = [];
+		
+		$('#gridarea').find('div.row').each(function(index, element){
+			
+			var dataCols = [];
+			
+			$(this).find('div.column').each( function(j, el) {
+				var colData = $(this).find('a');
+				var tmpArr = [];
+
+				tmpArr = [colData.attr('data-type'), colData.attr('data-health'), colData.attr('data-texture')];
+
+				dataCols.push(tmpArr);
+			});
+
+			dataRows.push(JSON.stringify(dataCols));
+
+		});
+
+		$.ajax({
+			type: 'POST',
+			url: 'json/printjson',
+			data: { data: dataRows },
+			success: function(resp)
+			{
+				$('#exportText').html(resp);
+			}
 		});
 	});
 	

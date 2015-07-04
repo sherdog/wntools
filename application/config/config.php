@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'http://localhost/wntools/';
+$config['base_url'] = 'http://173.236.31.170/~wntools/';
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ $config['base_url'] = 'http://localhost/wntools/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------

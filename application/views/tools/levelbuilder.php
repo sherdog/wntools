@@ -33,14 +33,15 @@
 		<div class="col-sm-12">
 			<button id="btnExportData" name="btnExportData" class="btn btn-default disabled">Serialize Data</button>
 			<button id="btnExportJSON" name="btnExportJSON" class="btn btn-default disabled">Export JSON</button>
+			<button id="btnExportPrettyJSON" name="btnExportPrettyJSON" class="btn btn-default disabled">Export Pretty JSON</button>
 		</div>
 	</div>
 	<div class="row export-area">
 		<div class="row">
 			<hr>
 			<div class="col-sm-12">
-				<label>Result:</label>
-				<textarea id="exportText" name="exportText" class="form-control"></textarea>
+				<label>Result: (type, health, texture)</label>
+				<textarea id="exportText" name="exportText" rows="15" class="form-control"></textarea>
 			</div>
 		</div>
 	</div>
