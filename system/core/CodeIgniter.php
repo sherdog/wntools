@@ -428,6 +428,8 @@ if ( ! is_php('5.4'))
 		}
 	}
 
+	error_log('404?: ' . $e404)
+
 	if ($e404)
 	{
 		if ( ! empty($RTR->routes['404_override']))
