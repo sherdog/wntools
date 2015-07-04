@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'http://localhost/wntools/';
+$config['base_url'] = 'https://wntools.herokuapp.com/';
 
 /*
 |--------------------------------------------------------------------------
