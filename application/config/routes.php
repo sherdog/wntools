@@ -53,6 +53,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['tools/'] = 'tools/levelbuilder';
 $route['tools/levelbuilder'] = 'tools/levelbuilder';
 
+
+$route['login'] = 'auth/login';
+$route['logout'] = 'auth/logout';
+
+$route['register'] = 'auth/create_user';
+
 $route['default_controller'] = 'main';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

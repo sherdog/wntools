@@ -7,7 +7,14 @@ class tools extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->helper('url');
+		
+		if (!$this->ion_auth->logged_in())
+		{
+			redirect('auth/login');
+		}
+
 		$this->_init();
+
 	}
 
 	function _init()

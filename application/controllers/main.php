@@ -8,6 +8,11 @@ class main extends CI_Controller {
 
 		$this->load->helper('url');
 
+		if (!$this->ion_auth->logged_in())
+		{
+			redirect('auth/login');
+		}
+
 		$this->_init();
 	}
 

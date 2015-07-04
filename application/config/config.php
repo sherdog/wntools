@@ -354,14 +354,25 @@ $config['encryption_key'] = '';
 | Other session cookie settings are shared with the rest of the application,
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
+CREATE TABLE IF NOT EXISTS  `ci_sessions` (
+	session_id varchar(40) DEFAULT '0' NOT NULL,
+	ip_address varchar(45) DEFAULT '0' NOT NULL,
+	user_agent varchar(120) NOT NULL,
+	last_activity int(10) unsigned DEFAULT 0 NOT NULL,
+	user_data text NOT NULL,
+	PRIMARY KEY (session_id),
+	KEY `last_activity_idx` (`last_activity`)
+);
 */
-$config['sess_driver'] = 'files';
+$config['sess_driver'] = 'database';
+$config['sess_use_database'] = TRUE;
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
+$config['sess_table_name'] = 'ci_sessions';
 
 /*
 |--------------------------------------------------------------------------

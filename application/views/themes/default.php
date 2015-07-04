@@ -71,7 +71,18 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/">Log out</a></li>
+             <?php if ($this->ion_auth->is_admin()): ?>
+             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="<?php echo base_url('auth/index'); ?>">List Users</a></li>
+                <li><a href="<?php echo base_url('auth/create_user'); ?>">Add User</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="<?php echo base_url('auth/change_password'); ?>">Update Password</a></li>
+              </ul>
+            </li>
+            <?php endif; ?>
+            <li><a href="<?php echo base_url('auth/logout'); ?>">Log out</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
