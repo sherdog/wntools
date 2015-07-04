@@ -289,4 +289,6 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+
+error_log('Fuck we made it to the end of index');
 require_once BASEPATH.'core/CodeIgniter.php';
