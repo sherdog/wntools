@@ -9,3 +9,10 @@
 }
 
 .btn.tile { min-height: 50px; font-size: 10px;}
+
+.insertItemRow { margin-bottom: 10px;}
+
+.insertItemRow .form-group, .insertItemRow .form-group label,  .insertItemRow .form-group a  { 
+	padding-right:10px;
+}
+

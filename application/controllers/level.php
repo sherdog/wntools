@@ -18,6 +18,7 @@ class Level extends CI_Controller {
 		$this->load->model('level_model');
 		$this->output->set_template('default');
 		$this->output->set_common_meta('Word Ninja Quest Admin :: Levels', '', '');
+
 	}
 
 	function index()
@@ -29,37 +30,47 @@ class Level extends CI_Controller {
 
 	function edit($levelID)
 	{
-		$level = $this->level_model->getLevels($levelID);
+		if($this->input->post())
+		{
+			//SAVE THE DATAZ
+		}
+		else
+		{
+			$this->load->js('assets/js/level.js');
+			$level = $this->level_model->getLevels($levelID);
 
-		$data['level'] = $level;
+			$data['level'] = $level;
 
-		$data['levelId'] = array(
-			'name' => 'level_id',
-			'id'	=> 'level_id',
-			'type'	=> 'text',
-			'class'	=> 'form-control',
-			'disabled' => '',
-			'value' => $data['level']->level
-		);
+			$data['levelId'] = array(
+				'name' => 'level_id',
+				'id'	=> 'level_id',
+				'type'	=> 'text',
+				'class'	=> 'form-control',
+				'disabled' => '',
+				'value' => $data['level']->level
+			);
 
-		$data['objectTypeOptions'] = array(
-			'move_bonus' => 'Bonus/Moves',
-			'time_bonus' => 'Bonus/Time',
-			'move_score' => 'Score/Moves',
-			'time_score' => 'Score/Time',
-			'move_words' => 'Words/Moves',
-			'time_words' => 'Words/Time',
-			'move_brick' => 'Bricks/Moves',
-			'time_brick' => 'Bricks/Time'
-		);
+			$data['objectTypeOptions'] = array(
+				'move_bonus' => 'Bonus/Moves',
+				'time_bonus' => 'Bonus/Time',
+				'move_score' => 'Score/Moves',
+				'time_score' => 'Score/Time',
+				'move_words' => 'Words/Moves',
+				'time_words' => 'Words/Time',
+				'move_brick' => 'Bricks/Moves',
+				'time_brick' => 'Bricks/Time'
+			);
 
-		$data['levelObjectiveValues'] = $this->level_model->levelObjectives($level->level);
+			$data['selectedLevelObjectiveType'] = $level->objective_type;
 
-		$data['objectTypeKeys'] = $this->level_model->getObjectiveKeys();
-		$data['selectedObjectiveType'] = $level->objective_type;
+			//for the select dropdown. yeah boy.
+			$data['levelObjectiveTypes'] = $this->level_model->levelObjectiveTypes();
 
-
-		$this->load->view('level/edit', $data);
+			$data['currentLevelObjectves'] = $this->level_model->getCurrentLevelObjectives($level->level);
+			$data['js'] = array('assets/js/level.js');
+			$this->load->view('level/edit', $data);
+		}
+		
 	}
 
 }

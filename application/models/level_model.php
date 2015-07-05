@@ -45,9 +45,56 @@ class level_model extends CI_Model
 
 	function levelObjectives($levelID)
 	{
-		$this->db->select('type, value, track');
+		$this->db->select('type');
 		$this->db->from('level_objectives');
 		$this->db->where('level_id', $levelID);
+
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
+	function levelObjectiveTypes()
+	{
+		$this->db->select('title,id');
+		$this->db->from('level_objective_types');
+
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
+	function getCurrentLevelObjectives($levelID = null)
+	{
+		//join the objecitves and values table.
+		if($levelID === null)
+		{
+			return nulll;
+		}
+
+
+		$this->db->select('level_objectives.type, level_objective_values.key, level_objective_values.value, level_objective_types.title, level_objective_types.value AS levelObjectSlug');
+		$this->db->from('level_objectives');
+		$this->db->join('level_objective_values', 'level_objectives.id', 'level_objective_values.level_objective_id', 'left');
+		$this->db->join('level_objective_types', 'level_objective_values.level_objective_type_id' , 'level_objectives_types.id', 'left');
+
+		$this->db->where('level_objectives.level_id', $levelID);
+
+		$query = $this->db->get();
+
+		$results = $query->result();
+
+		error_log('Results for current level objectives: ' . print_r($results,true));
+		error_log('SQL for level objectives for level: ' . $levelID . ' ' . $this->db->last_query());
+
+		return $results;
+	}
+
+	function levelObjectiveValues()
+	{
+		$this->db->select('*');
+		$this->db->from('level_objective_values');
+		$this->db->where('level_obective_id', $objectiveID);
 
 		$query = $this->db->get();
 

@@ -1,27 +1,33 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-8">
-			<?php echo form_open('level/edit'); ?>
+			<div class="row">
+				<?php echo form_open('level/edit'); ?>
 
-			<div class="form-group">
-				<label>Level #</label>
-				<?php echo form_input($levelId); ?>
-			</div>
-			<div class="form-group">
-				<label>Objective Type</label>
-				<?php echo form_dropdown('objective_type', $objectTypeOptions, $selectedObjectiveType, 'class="form-control"'); ?>
-			</div>
-			<div class="col-sm-4">
-
-				<?php foreach($objectTypeKeys as $objKey) : ?>
-
-			<?php endforeach; ?>
 				<div class="form-group">
-
+					<label>Level #</label>
+					<?php echo form_input($levelId); ?>
+				</div>
+				<div class="form-group">
+					<label>Objective Type</label>
+					<?php echo form_dropdown('objective_type', $objectTypeOptions, $selectedLevelObjectiveType, 'class="form-control"'); ?>
+				</div>
+				<?php echo form_close(); ?>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<?php echo form_open('level/edit', array('class'=>'form-inline')); ?>
+						<div id="objectives-area">
+							
+						</div>
+					<?php echo form_close(); ?>
 				</div>
 			</div>
-
-			<?php echo form_close(); ?>
+			<div class="row">
+				<div class="col-sm-12">
+					<a href="#" id="add-level-objective" class="btn btn-primary">Add Objective</a>
+				</div>
+			</div>
 		</div>
 		<div class="col-sm-4">
 			<div class="well">
@@ -39,3 +45,6 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+var typeOptionsObject = '<?php echo json_encode($levelObjectiveTypes); ?>';
+</script>
