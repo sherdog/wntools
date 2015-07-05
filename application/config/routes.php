@@ -59,6 +59,8 @@ $route['logout'] = 'auth/logout';
 
 $route['register'] = 'auth/create_user';
 
+$route['level/edit/(:num)'] = 'level/edit/$1';
+
 $route['default_controller'] = 'main';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
