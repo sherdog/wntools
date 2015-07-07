@@ -1,32 +1,56 @@
 <div class="container">
+	<?php if(isset($message)) : ?>
+
+	<div class="row">
+		<div class="alert alert-danger"><?php echo $message; ?></div>
+	</div>
+	<?php endif; ?>
+
 	<div class="row">
 		<div class="col-sm-8">
 			<div class="row">
 				<?php echo form_open('level/edit'); ?>
-
 				<div class="form-group">
 					<label>Level #</label>
 					<?php echo form_input($levelId); ?>
 				</div>
 				<div class="form-group">
-					<label>Objective Type</label>
-					<?php echo form_dropdown('objective_type', $objectTypeOptions, $selectedLevelObjectiveType, 'class="form-control"'); ?>
+				<h3>Level Ends in</h3>
+				</div>
+				<div class="form-group">
+					<label>Moves</label>
+					<input type="text" name="moves" id="moves" class="form-control" value="" />
+				</div>
+				<div class="form-group">
+					<label>Time</label>
+					<input type="text" name="time" id="time" class="form-control" value="" />
 				</div>
 				<?php echo form_close(); ?>
 			</div>
+			<hr>
+
 			<div class="row">
-				<div class="col-sm-12">
-					<?php echo form_open('level/edit', array('class'=>'form-inline')); ?>
-						<div id="objectives-area">
-							
-						</div>
+				<h3>Level Objectives</h3>
+				<!-- Existing Objectives -->
+				<?php if($currentLevelObjectves): ?>
+				Yup has objectives?
+				<?php endif; ?>
+				<div id="level-objectives">
+					<?php echo form_open('level/addobjective', array('class'=>'form-inline'), $hidden); ?>
+					<div class="form-group">
+						<label>Objective Type:</label>
+						<select id="level_objective_type" name="level_objective_type_id" class="form-control">
+							<option value="">Choose</option>
+							<?php foreach($levelObjectiveTypes as $type) : ?>
+							<option value="<?php echo $type->id; ?>"><?php echo $type->title; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<?php echo form_submit("submit", "submit", 'class="btn btn-primary"'); ?>
+					</div>
 					<?php echo form_close(); ?>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12">
-					<a href="#" id="add-level-objective" class="btn btn-primary">Add Objective</a>
-				</div>
+				</div>	
 			</div>
 		</div>
 		<div class="col-sm-4">
@@ -47,4 +71,6 @@
 </div>
 <script type="text/javascript">
 var typeOptionsObject = '<?php echo json_encode($levelObjectiveTypes); ?>';
+var level_id = '<?php echo $this->uri->segment(3); ?>';
+var base_url = '<?php echo base_url(); ?>';
 </script>

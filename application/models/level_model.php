@@ -43,6 +43,28 @@ class level_model extends CI_Model
 		return $query->result();
 	}
 
+	function save_objective($dataArray)
+	{
+		//check ot make sure it doesn't already exist.
+		$this->db->where('level_id', $dataArray['level']);
+		$this->db->where('type', $dataArray['type']);
+		$this->db->from('level_objectives_new');
+
+		if($this->db->count_all_results())
+		{
+			$this->db->insert('level_objectives_new', $dataArray);
+		}
+		else
+		{
+			$this->db->where('type', $dataArray['type']);
+			$this->db->where('level_id', $dataArray['level']);
+			$this->db->set('value', $dataArray['value']);
+			$this->db->update('level_objectives_new');
+		}
+
+		return true;
+	}
+
 	function levelObjectives($levelID)
 	{
 		$this->db->select('type');
@@ -56,12 +78,22 @@ class level_model extends CI_Model
 
 	function levelObjectiveTypes()
 	{
-		$this->db->select('title,id');
+		$this->db->select('title,id,value');
 		$this->db->from('level_objective_types');
 
 		$query = $this->db->get();
 
 		return $query->result();
+	}
+
+	function addObjective($data)
+	{
+		if(!is_array($data))
+			return false;
+
+		$this->db->insert('level_objectives_new', $data);
+
+		return true;
 	}
 
 	function getCurrentLevelObjectives($levelID = null)
@@ -72,20 +104,14 @@ class level_model extends CI_Model
 			return nulll;
 		}
 
-
-		$this->db->select('level_objectives.type, level_objective_values.key, level_objective_values.value, level_objective_types.title, level_objective_types.value AS levelObjectSlug');
-		$this->db->from('level_objectives');
-		$this->db->join('level_objective_values', 'level_objectives.id', 'level_objective_values.level_objective_id', 'left');
-		$this->db->join('level_objective_types', 'level_objective_values.level_objective_type_id' , 'level_objectives_types.id', 'left');
-
-		$this->db->where('level_objectives.level_id', $levelID);
+		$this->db->select('lov.key, lov.value, lov.level_objective_id');
+		$this->db->from('level_objective_values AS lov');
+		$this->db->join('level_objectives_new AS lo', 'lov.level_objective_id', 'lo.type', 'inner');
+		$this->db->where('lo.level_id', $levelID);
 
 		$query = $this->db->get();
 
 		$results = $query->result();
-
-		error_log('Results for current level objectives: ' . print_r($results,true));
-		error_log('SQL for level objectives for level: ' . $levelID . ' ' . $this->db->last_query());
 
 		return $results;
 	}

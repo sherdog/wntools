@@ -36,6 +36,12 @@ class Level extends CI_Controller {
 		}
 		else
 		{
+
+			if($this->session->flashdata('message'))
+			{
+				$data['message'] = $this->session->flashdata('message');
+			}
+
 			$this->load->js('assets/js/level.js');
 			$level = $this->level_model->getLevels($levelID);
 
@@ -65,12 +71,42 @@ class Level extends CI_Controller {
 
 			//for the select dropdown. yeah boy.
 			$data['levelObjectiveTypes'] = $this->level_model->levelObjectiveTypes();
-
+			$data['hidden'] = array('level_id'=>$level->level);
 			$data['currentLevelObjectves'] = $this->level_model->getCurrentLevelObjectives($level->level);
 			$data['js'] = array('assets/js/level.js');
 			$this->load->view('level/edit', $data);
 		}
 		
+	}
+
+	function addobjective()
+	{
+
+		$dataArray = array(
+			'level_id' 	=> $this->input->post('level_id'),
+			'type' 		=> $this->input->post('level_objective_type_id'),
+			'track' 	=> 1
+		);
+
+		$levelID = $this->input->post('level_id');
+
+		if(!$this->level_model->addObjective($dataArray))
+		{
+			$this->session->set_flashdata('message', 'Error saving objective');
+		}
+
+
+		redirect('level/edit/'.$levelID, 'refresh');
+	}
+
+	function saveobjective()
+	{
+		$this->set->set_template('json');
+		
+		if(!$this->input->post())
+		{
+			echo json_encode(array('status'=>'error'));
+		}
 	}
 
 }
