@@ -47,7 +47,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<?php echo form_submit("submit", "submit", 'class="btn btn-primary"'); ?>
+						<a href="#" data-toggle="modal" data-target="#valueModal" class="btn btn-primary">Add Objective</a>
 					</div>
 					<?php echo form_close(); ?>
 				</div>	
@@ -69,6 +69,27 @@
 		</div>
 	</div>
 </div>
+
+<!-- Modal For Word Find -->
+<div class="modal fade" id="valueModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Set Word Find Objectives</h4>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script type="text/javascript">
 var typeOptionsObject = '<?php echo json_encode($levelObjectiveTypes); ?>';
 var level_id = '<?php echo $this->uri->segment(3); ?>';

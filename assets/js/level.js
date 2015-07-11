@@ -34,47 +34,15 @@ $(document).ready(function(e) {
 	$(document).on('click', 'a.btnAddObjective', function(e){
 		e.preventDefault();
 
-		var $id = $(this).attr('rel'); //get the id so we can access the form elements
-		var $error = false;
-		var $type = $('#objective_type_'+$id).val();
-		var $value = $('#objective_value_'+$id).val();
-		var $levelID = level_id;
-		if($type == '')
-		{
-			$error = true;
-		}
-
-		if($value == '')
-		{
-			$error = true;
-		}
-
-		if(!$error)
-		{
-			var postData = {level:level_id, type:$type, value:$value };
-			//save this and then on success add it to the correct one.
-			$.ajax({
-				url: base_url + 'json/saveobjective',
-				data: postData,
-				method: 'POST',
-				success: function(resp)
-				{
-					alert(resp);
-				}
-			})
-		}
-		else
-		{
-			alert('Fields cannot be blank');
-		}
-
-
-
-
+		//check to see what type it is.. then we'll display a modal
+		//to which values can be added
+		s
 	});
 
 	$(document).on('click', 'a.btnRemoveObjective', function(e){
 		e.preventDefault();
+
+		
 
 		var $id = $(this).attr('rel');
 		$('#row_'+$id).remove();
