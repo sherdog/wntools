@@ -60,6 +60,7 @@ $route['logout'] = 'auth/logout';
 $route['register'] = 'auth/create_user';
 
 $route['level/edit/(:num)'] = 'level/edit/$1';
+$route['level/addLevelObject'] = 'level/addLevelObject/$1';
 
 $route['default_controller'] = 'main';
 $route['404_override'] = '';

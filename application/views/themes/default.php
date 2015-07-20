@@ -6,6 +6,9 @@
 		<meta name="googlebot" content="all, index, follow" />
 		<script src="<?php echo base_url('assets/js/jquery-1.9.1.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
+<script type="text/javascript">
+  var SITE_URL = '<?php echo site_url(); ?>';
+</script>
 	<?php
 	/** -- Copy from here -- */
 	if(!empty($meta))

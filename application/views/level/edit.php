@@ -47,7 +47,6 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<a href="#" data-toggle="modal" data-target="#valueModal" class="btn btn-primary">Add Objective</a>
 					</div>
 					<?php echo form_close(); ?>
 				</div>	
@@ -83,7 +82,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" id="btnModalSubmit"></button>
       </div>
     </div>
   </div>

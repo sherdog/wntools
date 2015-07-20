@@ -1,5 +1,29 @@
 $(document).ready(function(e) {
 
+	$('#level_objective_type').on('change', function(e) {
+
+		var $type = $(this).val();
+
+		$('#valueModal').modal('show', {backdrop: 'static'});
+		$('#valueModal .modal-body').html('Loading...');
+		$('#valueModal .modal-title').html('<small>Loading...</small>');
+		$('#btnModalSubmit').html('Add Objective');
+		$.ajax({
+			dataType: 'json',
+            url: SITE_URL + 'level/addLevelObjective/' + $type,
+            success: function(response)
+	        {
+	        	$('#valueModal .modal-title').html(response.title);
+	            jQuery('#valueModal .modal-body').html(response.content);
+	        }
+        });
+		/*
+		$("#valueModal").modal({
+	        remote : SITE_URL + 'add-level-objective/' + $type
+	    });
+		*/
+	});
+
 	$(document).on('click', 'a#add-level-objective', function(e){
 		e.preventDefault();
 		var typeOptions = jQuery.parseJSON(typeOptionsObject);

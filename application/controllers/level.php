@@ -73,10 +73,25 @@ class Level extends CI_Controller {
 			$data['levelObjectiveTypes'] = $this->level_model->levelObjectiveTypes();
 			$data['hidden'] = array('level_id'=>$level->level);
 			$data['currentLevelObjectves'] = $this->level_model->getCurrentLevelObjectives($level->level);
+
 			$data['js'] = array('assets/js/level.js');
+
 			$this->load->view('level/edit', $data);
 		}
 		
+	}
+
+	function addLevelObjective($id)
+	{
+		$this->output->set_template('json');
+
+		$return = array(
+			'title'=>'Add Level Objective ' . $id, 
+			'content' => ' This will be ' . $id .'s content '
+		);
+
+		echo json_encode($return);
+
 	}
 
 	function addobjective()
