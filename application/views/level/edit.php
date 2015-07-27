@@ -19,11 +19,11 @@
 				</div>
 				<div class="form-group">
 					<label>Moves</label>
-					<input type="text" name="moves" id="moves" class="form-control" value="" />
+					<input type="text" name="moves" id="moves" class="form-control" value="<?php echo $moves; ?>" />
 				</div>
 				<div class="form-group">
 					<label>Time</label>
-					<input type="text" name="time" id="time" class="form-control" value="" />
+					<input type="text" name="time" id="time" class="form-control" value="<?php echo $time; ?>" />
 				</div>
 				<?php echo form_close(); ?>
 			</div>
@@ -59,9 +59,9 @@
 				  <div class="panel-heading">Level Options</div>
 				  <!-- List group -->
 				  <ul class="list-group">
-				    <li class="list-group-item"><a href="#">Grid</a></li>
-				    <li class="list-group-item"><a href="#">Objectives</a></li>
-				    <li class="list-group-item"><a href="#">Score Tier</a></li>
+				    <li class="list-group-item"><a href="<?php echo base_url('level/grid/'. $this->uri->segment(3)); ?>">Grid</a></li>
+				    <li class="list-group-item"><a href="<?php echo base_url('level/objectives/'.$this->uri->segment(3)); ?>">Objectives</a></li>
+				    <li class="list-group-item"><a href="<?php echo base_url('level/score-tier/'.$this->uri->segment(3)); ?>">Score Tier</a></li>
 				    <li class="list-group-item"><a href="#">Word Objectives</a></li>
 				</div>
 			</div>

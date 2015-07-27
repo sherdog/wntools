@@ -67,7 +67,8 @@ class Level extends CI_Controller {
 				'time_brick' => 'Bricks/Time'
 			);
 
-			$data['selectedLevelObjectiveType'] = $level->objective_type;
+			$data['moves'] = ($level->moves) ? $level->moves : 0;
+			$data['time'] = ($level->time) ? $level->time : 0;
 
 			//for the select dropdown. yeah boy.
 			$data['levelObjectiveTypes'] = $this->level_model->levelObjectiveTypes();
@@ -81,15 +82,61 @@ class Level extends CI_Controller {
 		
 	}
 
+	function objectives($id = null)
+	{
+
+		$this->load->helper(array('form', 'url'));
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('objectiveValue', 'Value', 'required');
+
+		if($this->form_validation->run() === FALSE)
+		{
+			//Load view.
+			$this->load->model('level_model');
+			$data['objectiveTypes'] = $objectiveTypes = $this->level_model->levelObjectiveTypes();
+			$data['currentObjectives'] = $objectives = $this->level_model->getCurrentLevelObjectives($id);
+			$data['level'] = $id;
+
+			$this->load->view('level/objectives', $data);
+		}
+		else
+		{
+			//setup the form data for insertion.
+			$formData = array(
+				'level_objective_type_id' => set_value('objectiveType'),
+				'key'	=> set_value('objectiveKey'),
+				'value' => set_value('objectiveValue'),
+				'level_id' => set_value('levelID')
+			);
+
+			$levelID = set_value('levelID');
+
+			if( $this->level_model->addLevelObjective($formData) )
+			{
+				//Yay! we can redurec back for another addition.
+				redirect('level/objectives/'.$levelID, 'refresh');
+			}
+			else
+			{
+				echo "Error saving objective";
+			}
+
+
+		}
+		
+	}
+
 	function addLevelObjective($id)
 	{
 		$this->output->set_template('json');
-
+		$this->load->helper('objective_type_helper');
+		//do some type checking and return the right html
+		$content = $this->objective_type_helper->getFormContent($id);
 		$return = array(
 			'title'=>'Add Level Objective ' . $id, 
 			'content' => ' This will be ' . $id .'s content '
 		);
-
 		echo json_encode($return);
 
 	}

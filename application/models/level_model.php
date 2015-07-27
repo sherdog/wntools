@@ -7,7 +7,7 @@ class level_model extends CI_Model
 
 	function getLevels($level = null)
 	{
-		$this->db->select('track_id,background,level,thumbnail,objective_type,board_type');
+		$this->db->select('track_id,background,level,thumbnail,moves,time,board_type');
 		$this->db->from('levels');
 
 		if($level !== null)
@@ -76,6 +76,81 @@ class level_model extends CI_Model
 		return $query->result();
 	}
 
+	function deleteLevelObjective($id)
+	{
+		//first we get the type and then
+		//check to see if there are any records in the level_objectives_new
+		//table - if there is we need to remove it from that table.
+
+		$this->db->select('level_objective_type_id, level_id');
+		$this->db->from('level_objective_values');
+		$this->db->where('id', $id);
+
+		$query = $this->db->get();
+
+		$row = $query->row();
+
+		//we have the type now let's see how many records there are.
+
+		$this->db->select('id');
+		$this->db->from('level_objective_values');
+		$this->db->where('level_objective_type_id', $row->level_objective_type_id);
+
+		$query = $this->db->get();
+
+		$count = $query->num_rows();
+
+		if($count === 1)
+		{
+			//we are going to remove the type from level_objectives_new
+			 $this->db->delete('level_objectives_new', array('type' => $id, 'level_id' => $row->level_id)); 
+		}
+
+		//now let's delete the fucking row.
+		$this->db->delete('level_objective_values', array('id', $id));
+
+		return true;
+	}
+
+	function addLevelObjective($data)
+	{
+		//add it to the level_objectives table
+		//check to see if a type exists.
+
+		$this->db->select('id');
+		$this->db->from('level_objectives_new');
+		$this->db->where('type', $data['level_objective_type_id']);
+
+		$query = $this->db->get();
+
+		if(!$query->num_rows())
+		{
+			$levelObjectives = array(
+			'level_id' => $data['level_id'],
+			'type' => $data['level_objective_type_id']
+			);
+
+			$this->db->insert('level_objectives_new',$levelObjectives);
+
+			$levelObjectiveID = $this->db->insert_id();
+		}
+		else
+		{
+			$row = $query->row();
+			$levelObjectiveID = $row->id;
+		}
+		
+		$data['level_objective_id'] = $levelObjectiveID;
+
+		return $this->db->insert('level_objective_values', $data);
+	}
+
+	function updateLevelObjective($id,$data)
+	{
+		$this->db->where('id', $id);
+		return $this->db->update('level_objective_values', $data);
+	}
+
 	function levelObjectiveTypes()
 	{
 		$this->db->select('title,id,value');
@@ -104,10 +179,10 @@ class level_model extends CI_Model
 			return nulll;
 		}
 
-		$this->db->select('lov.key, lov.value, lov.level_objective_id');
+		$this->db->select('lot.title, lov.key, lov.value');
 		$this->db->from('level_objective_values AS lov');
-		$this->db->join('level_objectives_new AS lo', 'lov.level_objective_id', 'lo.type', 'inner');
-		$this->db->where('lo.level_id', $levelID);
+		$this->db->join('level_objective_types AS lot', 'lot.id = lov.level_objective_type_id', 'right');
+		$this->db->where('lov.level_id', $levelID);
 
 		$query = $this->db->get();
 
