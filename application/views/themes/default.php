@@ -42,6 +42,10 @@
 <link href="<?php echo base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
 <link href="<?php echo base_url('assets/css/font-awesome.min.css') ?>" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/wn.css'); ?>">
+<script type="text/javascript">
+var SITE_URL = "<?php echo site_url();?>";
+</script>
+
 </head>
 
   <body>

@@ -100,7 +100,6 @@ $(document).ready(function(e) {
 
 		if(type == 0)
 		{
-			
 			$('#'+tile).addClass('btn-danger');
 		}
 		else if(type == 2)
@@ -118,7 +117,7 @@ $(document).ready(function(e) {
 		$('#properties-area').html('');
 	});
 
-	$(document).on('click', 'button#btnExportJSON', function(e) {
+	$(document).on('click', 'input#saveLevelGrid', function(e) {
 		e.preventDefault();
 		
 		var dataRows = [];
@@ -130,86 +129,40 @@ $(document).ready(function(e) {
 			$(this).find('div.column').each( function(j, el) {
 				var colData = $(this).find('a');
 				var tmpArr = [];
-
+				var tmpObject = {};
+				
+				tmpObject = {type:colData.attr('data-type'), health:colData.attr('data-health'), texture:colData.attr('data-texture')};
 				tmpArr = [colData.attr('data-type'), colData.attr('data-health'), colData.attr('data-texture')];
 
-				dataCols.push(tmpArr);
+				dataCols.push(tmpObject);
 			});
-
 			dataRows.push(dataCols);
 		});
 
-		$('#exportText').html(JSON.stringify(dataRows));
-	});
-
-	$(document).on('click', 'button#btnExportData', function(e) {
-
-		e.preventDefault();
-		
-		var dataRows = [];
-		
-		$('#gridarea').find('div.row').each(function(index, element){
-			
-			var dataCols = [];
-			
-			$(this).find('div.column').each( function(j, el) {
-				var colData = $(this).find('a');
-				var tmpArr = [];
-
-				tmpArr = [colData.attr('data-type'), colData.attr('data-health'), colData.attr('data-texture')];
-
-				dataCols.push(tmpArr);
-			});
-
-			dataRows.push(JSON.stringify(dataCols));
-
-		});
-
+		//Call controller with datas.
 		$.ajax({
+			url: SITE_URL + 'json/save_grid',
+			data: 'data=' + JSON.stringify(dataRows) + "&level=" + $('#level').val() + "&track=" + $('#track').val(),
 			type: 'POST',
-			url: 'json/serializelevel',
-			data: { data: dataRows },
 			success: function(resp)
 			{
-				$('#exportText').html(resp);
+				if(resp.status == 'error')
+				{
+					alert("Error saving record! Sorry for being so soecific");
+				}
+				else
+				{
+					$('#messageAlertContent').html('Saved grid sucessfully');
+					$('#messageAlert').show();
+				}
 			}
-		});
+		})
 	});
 
-	$(document).on('click', 'button#btnExportPrettyJSON', function(e) {
+	/// ---------------------------------------------------------------------------------------------------------------------
+	/// HTML UTILITY FUCNTION FOR BUILDING FORM
+	/// ---------------------------------------------------------------------------------------------------------------------
 
-		e.preventDefault();
-		
-		var dataRows = [];
-		
-		$('#gridarea').find('div.row').each(function(index, element){
-			
-			var dataCols = [];
-			
-			$(this).find('div.column').each( function(j, el) {
-				var colData = $(this).find('a');
-				var tmpArr = [];
-
-				tmpArr = [colData.attr('data-type'), colData.attr('data-health'), colData.attr('data-texture')];
-
-				dataCols.push(tmpArr);
-			});
-
-			dataRows.push(JSON.stringify(dataCols));
-
-		});
-
-		$.ajax({
-			type: 'POST',
-			url: 'json/printjson',
-			data: { data: dataRows },
-			success: function(resp)
-			{
-				$('#exportText').html(resp);
-			}
-		});
-	});
-	
 	function inputHidden(name, id, value)
 	{
 		return '<input type="hidden" name="'+name+'" id="'+id+'" value="' + value + '" />';

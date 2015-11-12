@@ -63,9 +63,7 @@
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
-
-error_log('Env: ' . ENVIRONMENT);
-
+date_default_timezone_set('AMERICA/CHICAGO');
 switch (ENVIRONMENT)
 {
 	case 'development':
@@ -293,5 +291,4 @@ switch (ENVIRONMENT)
  * And away we go...
  */
 
-error_log('Fuck we made it to the end of index' . BASEPATH);
 require_once BASEPATH.'core/CodeIgniter.php';

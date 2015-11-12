@@ -399,8 +399,6 @@ if ( ! is_php('5.4'))
 	$class = $RTR->class;
 	$method = $RTR->method;
 
-	error_log('App path: ' . APPPATH . 'controllers/'.$RTR->directory.$class.'php');
-
 	if (empty($class) OR ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php'))
 	{
 		$e404 = TRUE;
@@ -427,8 +425,6 @@ if ( ! is_php('5.4'))
 			$e404 = TRUE;
 		}
 	}
-
-	error_log('404?: ' . $e404);
 
 	if ($e404)
 	{

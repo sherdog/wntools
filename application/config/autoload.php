@@ -60,7 +60,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array('ion_auth');
+$autoload['libraries'] = array('ion_auth', 'mongo_db', 'events');
 
 
 /*
@@ -76,7 +76,7 @@ $autoload['libraries'] = array('ion_auth');
 |	$autoload['drivers'] = array('cache');
 */
 
-$autoload['drivers'] = array();
+$autoload['drivers'] = array('');
 
 
 /*

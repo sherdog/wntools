@@ -2,12 +2,24 @@
 
 class Json extends CI_Controller {
 
+	function __construct()
+	{
+		parent::__construct();
+		$this->_init();
+	}
+
+	function _init()
+	{
+		$this->load->model('level_model');
+	}	
+
 	function serializelevel()
 	{
 		if($this->input->post())
 		{
 			error_log('get was set');
-			echo serialize($this->input->post('data'));
+
+			echo base64_encode(serialize($this->input->post('data')));
 
 		}
 	}
@@ -38,5 +50,30 @@ class Json extends CI_Controller {
 				echo json_encode(array('status'=>'ok'));
 			}
 		}
+	}
+
+	function save_grid()
+	{
+		$data = $this->input->post('data');
+		$trackID = $this->input->post('track');
+		$levelID = $this->input->post('level');
+
+		$level = $levelID . "_" . $trackID;
+
+		$save = array(
+			'last_modified' => date('Y-m-d G:i:s'),
+			'grid' => json_decode($data)
+		);
+		
+
+		if($this->level_model->save_grid_info($level, $save))
+		{
+			echo json_encode(array('status'=>'ok'));
+		}
+		else
+		{
+			echo json_encode(array('status'=>'error'));
+		}
+
 	}
 }	
