@@ -1,0 +1,9 @@
+{
+    "require": {
+         "ext-mbstring": "*",
+         "php-curl-class/php-curl-class": "dev-master",
+         "php": ">=5.4.0",
+         "ext-mongo": "*"
+    }
+    
+}
