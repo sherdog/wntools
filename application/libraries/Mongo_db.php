@@ -14,7 +14,7 @@
 * Thanks to Alex Bilbie (http://alexbilbie.com) for help.
 */
 
-Class Mongo_dbb{
+Class Mongo_db{
 
 	private $CI;
 	private $config = array();
